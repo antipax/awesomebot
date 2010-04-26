@@ -9,11 +9,21 @@ using System.Windows.Forms;
 
 namespace awesomebot
 {
-    public partial class Form1 : Form
+    public partial class awesomebotform : Form
     {
-        public Form1()
+        public awesomebotform()
         {
             InitializeComponent();
+            string[] row0 = { "0", "0", "0", "0", "0", "0", "0", "0" };
+            mapGrid.Rows.Add(row0);
+            mapGrid.Rows[0].DefaultCellStyle.BackColor = Color.Aquamarine;
+
+
+        }
+
+        private void mapGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
