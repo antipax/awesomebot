@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.mapGrid = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,6 +38,17 @@
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.leftTicks = new System.Windows.Forms.TextBox();
+            this.rightTicks = new System.Windows.Forms.TextBox();
+            this.forward = new System.Windows.Forms.Button();
+            this.left = new System.Windows.Forms.Button();
+            this.right = new System.Windows.Forms.Button();
+            this.backwards = new System.Windows.Forms.Button();
+            this.openSerialPort = new System.Windows.Forms.Button();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,6 +72,8 @@
             this.mapGrid.RowHeadersVisible = false;
             this.mapGrid.Size = new System.Drawing.Size(312, 204);
             this.mapGrid.TabIndex = 0;
+            this.mapGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.mapGrid_CellEndEdit);
+            this.mapGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mapGrid_KeyPress);
             this.mapGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mapGrid_CellContentClick);
             // 
             // Column1
@@ -102,16 +116,119 @@
             this.Column8.HeaderText = "Column8";
             this.Column8.Name = "Column8";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(73, 225);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Left ticks";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(73, 251);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Right ticks";
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // leftTicks
+            // 
+            this.leftTicks.Location = new System.Drawing.Point(23, 225);
+            this.leftTicks.Name = "leftTicks";
+            this.leftTicks.Size = new System.Drawing.Size(44, 20);
+            this.leftTicks.TabIndex = 5;
+            // 
+            // rightTicks
+            // 
+            this.rightTicks.Location = new System.Drawing.Point(23, 248);
+            this.rightTicks.Name = "rightTicks";
+            this.rightTicks.Size = new System.Drawing.Size(44, 20);
+            this.rightTicks.TabIndex = 6;
+            // 
+            // forward
+            // 
+            this.forward.Location = new System.Drawing.Point(206, 222);
+            this.forward.Name = "forward";
+            this.forward.Size = new System.Drawing.Size(75, 23);
+            this.forward.TabIndex = 7;
+            this.forward.Text = "Forward";
+            this.forward.UseVisualStyleBackColor = true;
+            this.forward.Click += new System.EventHandler(this.forward_Click);
+            // 
+            // left
+            // 
+            this.left.Location = new System.Drawing.Point(149, 248);
+            this.left.Name = "left";
+            this.left.Size = new System.Drawing.Size(75, 23);
+            this.left.TabIndex = 8;
+            this.left.Text = "Left";
+            this.left.UseVisualStyleBackColor = true;
+            this.left.Click += new System.EventHandler(this.left_Click);
+            // 
+            // right
+            // 
+            this.right.Location = new System.Drawing.Point(249, 248);
+            this.right.Name = "right";
+            this.right.Size = new System.Drawing.Size(75, 23);
+            this.right.TabIndex = 9;
+            this.right.Text = "Right";
+            this.right.UseVisualStyleBackColor = true;
+            this.right.Click += new System.EventHandler(this.right_Click);
+            // 
+            // backwards
+            // 
+            this.backwards.Location = new System.Drawing.Point(206, 277);
+            this.backwards.Name = "backwards";
+            this.backwards.Size = new System.Drawing.Size(75, 23);
+            this.backwards.TabIndex = 10;
+            this.backwards.Text = "Backwards";
+            this.backwards.UseVisualStyleBackColor = true;
+            this.backwards.Click += new System.EventHandler(this.backwards_Click);
+            // 
+            // openSerialPort
+            // 
+            this.openSerialPort.Location = new System.Drawing.Point(12, 287);
+            this.openSerialPort.Name = "openSerialPort";
+            this.openSerialPort.Size = new System.Drawing.Size(75, 23);
+            this.openSerialPort.TabIndex = 11;
+            this.openSerialPort.Text = "Open Serial Port";
+            this.openSerialPort.UseVisualStyleBackColor = true;
+            this.openSerialPort.Click += new System.EventHandler(this.openSerialPort_Click);
+            // 
+            // serialPort1
+            // 
+            this.serialPort1.BaudRate = 115200;
+            this.serialPort1.PortName = "COM6";
+            this.serialPort1.ReadTimeout = 250;
+            // 
             // awesomebotform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(336, 292);
+            this.ClientSize = new System.Drawing.Size(392, 335);
+            this.Controls.Add(this.openSerialPort);
+            this.Controls.Add(this.backwards);
+            this.Controls.Add(this.right);
+            this.Controls.Add(this.left);
+            this.Controls.Add(this.forward);
+            this.Controls.Add(this.rightTicks);
+            this.Controls.Add(this.leftTicks);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.mapGrid);
             this.Name = "awesomebotform";
             this.Text = "Awesomebot";
             ((System.ComponentModel.ISupportInitialize)(this.mapGrid)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -126,6 +243,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.TextBox leftTicks;
+        private System.Windows.Forms.TextBox rightTicks;
+        private System.Windows.Forms.Button forward;
+        private System.Windows.Forms.Button left;
+        private System.Windows.Forms.Button right;
+        private System.Windows.Forms.Button backwards;
+        private System.Windows.Forms.Button openSerialPort;
+        private System.IO.Ports.SerialPort serialPort1;
 
     }
 }
