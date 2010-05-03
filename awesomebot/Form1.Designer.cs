@@ -49,6 +49,7 @@
             this.backwards = new System.Windows.Forms.Button();
             this.openSerialPort = new System.Windows.Forms.Button();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.wave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mapGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -209,11 +210,22 @@
             this.serialPort1.PortName = "COM6";
             this.serialPort1.ReadTimeout = 250;
             // 
+            // wave
+            // 
+            this.wave.Location = new System.Drawing.Point(111, 300);
+            this.wave.Name = "wave";
+            this.wave.Size = new System.Drawing.Size(75, 23);
+            this.wave.TabIndex = 12;
+            this.wave.Text = "Wavefront";
+            this.wave.UseVisualStyleBackColor = true;
+            this.wave.Click += new System.EventHandler(this.wave_Click);
+            // 
             // awesomebotform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(392, 335);
+            this.Controls.Add(this.wave);
             this.Controls.Add(this.openSerialPort);
             this.Controls.Add(this.backwards);
             this.Controls.Add(this.right);
@@ -254,6 +266,7 @@
         private System.Windows.Forms.Button backwards;
         private System.Windows.Forms.Button openSerialPort;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.Button wave;
 
     }
 }
