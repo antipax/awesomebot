@@ -50,6 +50,7 @@
             this.openSerialPort = new System.Windows.Forms.Button();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.wave = new System.Windows.Forms.Button();
+            this.textBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.mapGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -212,7 +213,7 @@
             // 
             // wave
             // 
-            this.wave.Location = new System.Drawing.Point(111, 300);
+            this.wave.Location = new System.Drawing.Point(109, 287);
             this.wave.Name = "wave";
             this.wave.Size = new System.Drawing.Size(75, 23);
             this.wave.TabIndex = 12;
@@ -220,11 +221,23 @@
             this.wave.UseVisualStyleBackColor = true;
             this.wave.Click += new System.EventHandler(this.wave_Click);
             // 
+            // textBox
+            // 
+            this.textBox.BackColor = System.Drawing.Color.White;
+            this.textBox.Location = new System.Drawing.Point(330, 12);
+            this.textBox.Multiline = true;
+            this.textBox.Name = "textBox";
+            this.textBox.ReadOnly = true;
+            this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox.Size = new System.Drawing.Size(312, 204);
+            this.textBox.TabIndex = 13;
+            // 
             // awesomebotform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 335);
+            this.ClientSize = new System.Drawing.Size(653, 335);
+            this.Controls.Add(this.textBox);
             this.Controls.Add(this.wave);
             this.Controls.Add(this.openSerialPort);
             this.Controls.Add(this.backwards);
@@ -267,6 +280,7 @@
         private System.Windows.Forms.Button openSerialPort;
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button wave;
+        private System.Windows.Forms.TextBox textBox;
 
     }
 }

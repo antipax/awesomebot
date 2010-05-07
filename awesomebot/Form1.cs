@@ -285,6 +285,11 @@ namespace awesomebot
             {
                 Point p = path.Pop();
                 move(p);
+                String tag = sendCommand("T\r");
+                if (!tag.StartsWith("tn"))
+                {
+                    textBox.Text += "Tag read: " + tag + "\n";
+                }
             }
             timer1.Enabled = true;
         }
@@ -424,6 +429,7 @@ namespace awesomebot
         private void wave_Click(object sender, EventArgs e)
         {
             Point goal = findCell(100);
+            mapGrid.Rows[goal.y].Cells[goal.x].Style.BackColor = Color.Green;
             path = getPath(new Point(robotX, robotY), goal);
             
             Console.Out.WriteLine("Path length: " + path.Count);
