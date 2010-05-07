@@ -17,12 +17,11 @@ namespace awesomebot
         {
             public Point(int x, int y)
             { this.x = x; this.y = y; }
-            public bool Equals1(object other)
+            public bool Equals(object other)
             {
                 return ((Point)other).x == this.x && ((Point)other).y == this.y;
             }
-            
-            override public string ToString()
+            public string ToString()
             {
                 return "x: " + x + " y: " + y;
             }
@@ -31,15 +30,14 @@ namespace awesomebot
         int robotX = 0;
         int robotY = 0;
         int maxTries = 5;
-        int orientation = 2;
+        double theta = 0;
         const int forwardLeft = 188;
         const int forwardRight = 188;
         const int right45 = -28;
         const int left45 = 28;
         const int right90 = -55;
         const int left90 = 55;
-        
-        Stack<Point> path = null;
+        bool goForward = false;
 
         public int getCell(int i, int j)
         {
@@ -107,7 +105,7 @@ namespace awesomebot
             Stack<Point> path = new Stack<Point>();
             wavefront(start, goal, 1);
             Point current = new Point(goal.x, goal.y);
-            while (!current.Equals1(start))
+            while (!current.Equals(start))
             {
                 path.Push(current);
                 int val = getCell(current);
@@ -134,10 +132,10 @@ namespace awesomebot
 
                 for (int i = 0; i < 8; i++)
                 {
-                    if (adjVals[i] >= 0 && adjVals[i] < val)
+                    if (adjVals[i] < val)
                     {
                         current = adjPoints[i];
-                       
+                        Console.WriteLine(adjPoints[i].ToString());
                         break;
                     }
                 }
@@ -161,7 +159,7 @@ namespace awesomebot
             
             setCell(start, val);
             //Console.Out.WriteLine("x: " + start.x + " y: " + start.y + " val: " + getCell(start));
-            if (start.Equals1(goal))
+            if (start.Equals(goal))
             {
                 return;
             }
@@ -233,44 +231,54 @@ namespace awesomebot
         public void cellForward()
         {
             pidMove(forwardLeft, forwardRight);
+            int dx = (int)(Math.Cos(theta));
+            int dy = (int)Math.Sin(theta);
+            updateRobotGui(robotX + dx, robotY + dy);
         }
 
         public void cellBackwards()
         {
             pidMove(-forwardLeft, -forwardRight);
+            int dx = (int)Math.Cos(theta + Math.PI);
+            int dy = (int)Math.Sin(theta + Math.PI);
+            updateRobotGui(robotX + dx, robotY + dy);
         }
 
         public void turnRight45()
         {
             pidMove(left45, right45);
-            Console.Write("Orientation: " + orientation);
-            orientation = (orientation + 1) % 8;
-            Console.WriteLine(" to " + orientation);
-
+            theta += Math.PI / 4;
+            theta %= Math.PI * 2;
         }
 
         public void turnLeft45()
         {
             pidMove(-left45, -right45);
-            orientation = (orientation - 1) % 8;
+            theta -= Math.PI / 4;
+            theta %= Math.PI * 2;
         }
 
         public void turnRight90()
         {
             pidMove(left90, right90);
-            orientation = (orientation + 2) % 8;
+            theta += Math.PI / 2;
+            theta %= Math.PI * 2;
         }
 
         public void turnLeft90()
         {
             pidMove(-left90, -right90);
-            orientation = (orientation - 2) % 8;
+            theta -= Math.PI / 2;
+            theta %= Math.PI * 2;
         }
 
-        public void diagonalForward()
+        public void diagonalForwards()
         {
             pidMove(250, 250);
             pidMove(14, 14);
+            int dx = (int)Math.Cos(theta);
+            int dy = (int)Math.Sin(theta);
+            updateRobotGui(robotX + dx, robotY + dy);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -280,13 +288,11 @@ namespace awesomebot
             // Read tag
             // update gui
             // loop
-            timer1.Enabled = false;
-            if (path != null && path.Count > 0)
+            if (goForward)
             {
-                Point p = path.Pop();
-                move(p);
+                cellForward();
+                goForward = false;
             }
-            timer1.Enabled = true;
         }
 
         private void forward_Click(object sender, EventArgs e)
@@ -315,119 +321,30 @@ namespace awesomebot
                 serialPort1.Open();
         }
 
-        private int toOrientation(int dx, int dy)
-        {
-            if (dx == 0 && dy == 1)
-            {
-                return 4;
-            }
-            if (dx == 1 && dy == 1)
-            {
-                return 3;
-            }
-            if (dx == 1 && dy == 0)
-            {
-                return 2;
-            }
-            if (dx == 1 && dy == -1)
-            {
-                return 1;
-            }
-            if (dx == 0 && dy == -1)
-            {
-                return 0;
-            }
-            if (dx == -1 && dy == -1)
-            {
-                return 7;
-            }
-            if (dx == -1 && dy == 0)
-            {
-                return 6;
-            }
-            if (dx == -1 && dy == 1)
-            {
-                return 5;
-            }
-            return -1;
-  
-        }
-
         // only moves one cell at a time
         private void move(Point newLoc)
         {
-            Console.WriteLine("newLoc: " + newLoc.ToString());
             int dx = newLoc.x - robotX;
             int dy = newLoc.y - robotY;
-            
-            int newOrientation = toOrientation(dx, dy);
-            Console.WriteLine("newOrientation: " + newOrientation);
-            int dt = (newOrientation - orientation) % 8;
-            if (dt < 0) { dt += 8; }
+            assert(Math.Abs(dx) <= 1);
+            assert(Math.Abs(dy) <= 1);
+            double dt = Math.Atan2(dy, dx);
 
-            if (dt > 4)
-            {
-                //turning left
-                if (dt % 2 != 0)
-                {
-                    Console.WriteLine("Turning left 45 deg. Current orientation: " + orientation);
-                    turnLeft45();
-                }
-                while (orientation != newOrientation)
-                {
-                    Console.WriteLine("Turning left 90 deg. Current orientation: " + orientation);
-                    turnLeft90();
-                }
-            }
-            else
-            {
-                //turning right
-                if (dt % 2 != 0)
-                {
-                    Console.WriteLine("Turning right 45 deg. Current orientation: " + orientation);
-                    turnRight45();
-                }
-                while (orientation != newOrientation)
-                {
-                    Console.WriteLine("Turning right 90 deg. Current orientation: " + orientation);
-                    turnRight90();
+            // TODO: finish
+            if (dt 
 
-                }
-            }
-
-            if (Math.Abs(dx) + Math.Abs(dy) == 2)
-            {
-                diagonalForward();
-            }
-            else
-            {
-                cellForward();
-            }
-            updateRobotGui(newLoc.x, newLoc.y);
-        }
-
-        private Point findCell(int val)
-        {
-            for (int i = 0; i < mapGrid.Rows.Count; i++)
-            {
-                for (int j = 0; j < mapGrid.Rows[i].Cells.Count; j++)
-                {
-                    if (getCell(i, j) == val)
-                    {
-                        return new Point(j, i);
-                    }
-                }
-            }
-            return null;
         }
 
         private void wave_Click(object sender, EventArgs e)
         {
-            Point goal = findCell(100);
-            path = getPath(new Point(robotX, robotY), goal);
-            
+            Stack<Point> path = getPath(new Point(0, 0), new Point(7, 3));
             Console.Out.WriteLine("Path length: " + path.Count);
-           
+            while(path.Count > 0)
+            {
+                Point p = path.Pop();
+                
+                Console.Out.WriteLine(p.ToString());
+            }
         }
 
     }

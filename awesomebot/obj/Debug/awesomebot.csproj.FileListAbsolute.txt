@@ -1,0 +1,10 @@
+C:\Users\antipax\Documents\awesomebot\awesomebot\bin\Debug\awesomebot.exe.config
+C:\Users\antipax\Documents\awesomebot\awesomebot\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\antipax\Documents\awesomebot\awesomebot\obj\Debug\awesomebot.Properties.Resources.resources
+C:\Users\antipax\Documents\awesomebot\awesomebot\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\antipax\Documents\awesomebot\awesomebot\obj\Debug\GenerateResource.write.1.tlog
+C:\Users\antipax\Documents\awesomebot\awesomebot\bin\Debug\awesomebot.exe
+C:\Users\antipax\Documents\awesomebot\awesomebot\bin\Debug\awesomebot.pdb
+C:\Users\antipax\Documents\awesomebot\awesomebot\obj\Debug\awesomebot.exe
+C:\Users\antipax\Documents\awesomebot\awesomebot\obj\Debug\awesomebot.pdb
+C:\Users\antipax\Documents\awesomebot\awesomebot\obj\Debug\awesomebot.awesomebotform.resources

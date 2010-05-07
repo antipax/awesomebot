@@ -73,9 +73,9 @@
             this.mapGrid.RowHeadersVisible = false;
             this.mapGrid.Size = new System.Drawing.Size(312, 204);
             this.mapGrid.TabIndex = 0;
-            this.mapGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mapGrid_CellContentClick);
             this.mapGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.mapGrid_CellEndEdit);
             this.mapGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mapGrid_KeyPress);
+            this.mapGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mapGrid_CellContentClick);
             // 
             // Column1
             // 
@@ -207,7 +207,7 @@
             // serialPort1
             // 
             this.serialPort1.BaudRate = 115200;
-            this.serialPort1.PortName = "COM4";
+            this.serialPort1.PortName = "COM6";
             this.serialPort1.ReadTimeout = 250;
             // 
             // wave
