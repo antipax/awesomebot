@@ -245,26 +245,41 @@ namespace awesomebot
             pidMove(left45, right45);
             Console.Write("Orientation: " + orientation);
             orientation = (orientation + 1) % 8;
+            if (orientation < 0)
+            {
+                orientation += 8;
+            }
             Console.WriteLine(" to " + orientation);
-
         }
 
         public void turnLeft45()
         {
             pidMove(-left45, -right45);
             orientation = (orientation - 1) % 8;
+            if (orientation < 0)
+            {
+                orientation += 8;
+            }
         }
 
         public void turnRight90()
         {
             pidMove(left90, right90);
             orientation = (orientation + 2) % 8;
+            if (orientation < 0)
+            {
+                orientation += 8;
+            }
         }
 
         public void turnLeft90()
         {
             pidMove(-left90, -right90);
             orientation = (orientation - 2) % 8;
+            if (orientation < 0)
+            {
+                orientation += 8;
+            }
         }
 
         public void diagonalForward()
@@ -281,15 +296,39 @@ namespace awesomebot
             // update gui
             // loop
             timer1.Enabled = false;
-            if (path != null && path.Count > 0)
+            if (path != null)
+            if (path.Count > 0)
             {
                 Point p = path.Pop();
                 move(p);
                 String tag = sendCommand("T\r");
                 if (!tag.StartsWith("tn"))
                 {
-                    textBox.Text += "Tag read: " + tag + "\n";
+                    textBox.Text += "Tag read: " + tag + "\r\n";
+                    foreach (String ammoTags in textBox1.Lines)
+                    {
+                        if (tag.Equals(ammoTags))
+                        {
+                            textBox.Text += "Ammo tag found!\r\n";
+                        }
+                    }
                 }
+                String sensors = sendCommand("A\r");
+                String[] vals = sensors.Substring(1).Split(',');
+                int battery = 0;
+                if (Int32.TryParse(vals[0],out battery))
+                {
+                    if (battery < 129)
+                    {
+                        Form.ActiveForm.BackColor = Color.Red;
+                    }
+                }
+            }
+            
+            else 
+            {
+                textBox.Text += "Goal cell reached!\r\n";
+                path = null;
             }
             timer1.Enabled = true;
         }

@@ -51,6 +51,7 @@
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.wave = new System.Windows.Forms.Button();
             this.textBox = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.mapGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -232,11 +233,21 @@
             this.textBox.Size = new System.Drawing.Size(312, 204);
             this.textBox.TabIndex = 13;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(330, 225);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(311, 85);
+            this.textBox1.TabIndex = 14;
+            // 
             // awesomebotform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 335);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.wave);
             this.Controls.Add(this.openSerialPort);
@@ -281,6 +292,7 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button wave;
         private System.Windows.Forms.TextBox textBox;
+        private System.Windows.Forms.TextBox textBox1;
 
     }
 }
