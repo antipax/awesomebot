@@ -26,6 +26,11 @@ namespace awesomebot
             {
                 return "x: " + x + " y: " + y;
             }
+            public int ToRfidNum()
+            {
+                return y * 8 + x;
+            }
+
             public int x, y;
         }
         int robotX = 0;
@@ -38,6 +43,7 @@ namespace awesomebot
         const int left45 = 28;
         const int right90 = -55;
         const int left90 = 55;
+        Point goal;
         
         Stack<Point> path = null;
 
@@ -327,10 +333,77 @@ namespace awesomebot
             
             else 
             {
-                textBox.Text += "Goal cell reached!\r\n";
+                string tag = sendCommand("T\r");
+                if (tag.StartsWith("t0") && Int32.Parse(tag.Substring(1)) == goal.ToRfidNum())
+                {
+                    textBox.Text += "Goal cell reached!\r\n";
+                    textBox.Text += tag;
+                    Form.ActiveForm.BackColor = Color.Green;
+                }
+                else
+                {
+                    sendCommand("Z\r");
+                    for (int i = 0; i < 4; i++)
+                    {
+                        turnRight90();
+                        if (sendCommand("z\r").Equals("za"))
+                        {
+                            textBox.Text += "Goal cell reached!\r\n";
+                            tag = sendCommand("T\r");
+                            textBox.Text += tag;
+                            break;
+                        }
+                    }
+
+                    sendCommand("Z\r");
+                    if (searchMoveUnit(1)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(1)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(1)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(2)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(2)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(3)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(3)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(4)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(4)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(5)) return;
+                    turnLeft90();
+                    if (searchMoveUnit(5)) return;
+                    turnLeft90();
+                    Form.ActiveForm.BackColor = Color.Black;
+                }
+
                 path = null;
             }
             timer1.Enabled = true;
+        }
+
+        static int unitSearch = 16;
+
+        private bool searchMoveUnit(int units)
+        {
+            pidMove(units * unitSearch, units * unitSearch);
+            if (sendCommand("z\r").Equals("za"))
+            {
+                textBox.Text += "Goal cell reached!\r\n";
+                Form.ActiveForm.BackColor = Color.Green;
+                string tag = sendCommand("T\r");
+                textBox.Text += tag;
+                return true;
+            }
+            else
+            {
+                sendCommand("Z\r");
+                return false;
+            }
         }
 
         private void forward_Click(object sender, EventArgs e)
@@ -467,7 +540,7 @@ namespace awesomebot
 
         private void wave_Click(object sender, EventArgs e)
         {
-            Point goal = findCell(100);
+            goal = findCell(100);
             mapGrid.Rows[goal.y].Cells[goal.x].Style.BackColor = Color.Green;
             path = getPath(new Point(robotX, robotY), goal);
             
